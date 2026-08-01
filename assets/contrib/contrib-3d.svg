@@ -384,6 +384,7 @@
 <g class="c" style="animation-delay:0.579s"><polygon points="705.0,427.5 720.0,435.0 720.0,435.0 705.0,427.5" fill="#000c05"/><polygon points="720.0,435.0 735.0,427.5 735.0,427.5 720.0,435.0" fill="#001207"/><polygon points="720.0,420.0 735.0,427.5 720.0,435.0 705.0,427.5" fill="#001a0b"/></g>
 <g class="c" style="animation-delay:0.590s"><polygon points="660.0,389.0 675.0,396.5 675.0,442.5 660.0,435.0" fill="#38734c"/><polygon points="675.0,396.5 690.0,389.0 690.0,435.0 675.0,442.5" fill="#55ad72"/><polygon points="675.0,381.5 690.0,389.0 675.0,396.5 660.0,389.0" fill="#7dffa8" class="lit"/></g>
 <g class="c" style="animation-delay:0.590s"><polygon points="690.0,395.2 705.0,402.7 705.0,442.5 690.0,435.0" fill="#00732e"/><polygon points="705.0,402.7 720.0,395.2 720.0,435.0 705.0,442.5" fill="#00ad45"/><polygon points="705.0,387.7 720.0,395.2 705.0,402.7 690.0,395.2" fill="#00ff66" class="lit"/></g>
+<g class="c" style="animation-delay:0.600s"><polygon points="675.0,442.5 690.0,450.0 690.0,450.0 675.0,442.5" fill="#000c05"/><polygon points="690.0,450.0 705.0,442.5 705.0,442.5 690.0,450.0" fill="#001207"/><polygon points="690.0,435.0 705.0,442.5 690.0,450.0 675.0,442.5" fill="#001a0b"/></g>
 </g>
 <text class="hd" x="40" y="36" font-size="30">CONTRIBUTION MATRIX</text>
 <text class="lb" x="40" y="58" font-size="11">including private repositories · rendered by contrib3d</text>
