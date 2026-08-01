@@ -159,8 +159,9 @@ Spanish at [jose.cerberus.cl](https://jose.cerberus.cl).
 
 ### Enter the mainframe
 
-**[▸ l0rdbarcsacs.github.io](https://l0rdbarcsacs.github.io)** — a WebGL visualisation of this
-account: contribution city, language galaxy, systems in orbit.
+**[▸ jose.cerberus.cl](https://jose.cerberus.cl)** — a CRT-mainframe WebOS built in Astro and
+raw WebGL2: a living neural-network background, GSAP window choreography, fourteen desktop
+apps, and an accessible plain-text mode. The same phosphor system as this page.
 
 <!-- BEGIN:footer -->
 <!-- END:footer -->

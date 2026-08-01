@@ -166,11 +166,12 @@ Spanish at [jose.cerberus.cl](https://jose.cerberus.cl).
 
 ### Enter the mainframe
 
-**[▸ l0rdbarcsacs.github.io](https://l0rdbarcsacs.github.io)** — a WebGL visualisation of this
-account: contribution city, language galaxy, systems in orbit.
+**[▸ jose.cerberus.cl](https://jose.cerberus.cl)** — a CRT-mainframe WebOS built in Astro and
+raw WebGL2: a living neural-network background, GSAP window choreography, fourteen desktop
+apps, and an accessible plain-text mode. The same phosphor system as this page.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Aug 1, 2026, 12:12 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 1, 2026, 12:13 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
