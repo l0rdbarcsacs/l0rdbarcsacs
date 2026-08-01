@@ -8,8 +8,8 @@
    definition a function of the frames that came before. The fix is a pre-roll:
    before compositing frame N the persistence chain is cleared and frames
    N-PREROLL .. N-1 are folded into it. With decay d the forgotten tail is
-   d^PREROLL — at d=0.74 and PREROLL=12 that is 0.024, i.e. under one 8-bit
-   level, so the pre-rolled buffer is indistinguishable from an infinitely long
+   d^PREROLL — at d=0.45 and PREROLL=8 that is 0.0017, far under one 8-bit level,
+   so the pre-rolled buffer is indistinguishable from an infinitely long
    run. And because timeline.paramsAt is periodic, paramsAt(-1) is visually
    paramsAt(FRAMES-1): frame 0's phosphor trail is the trail it would have had
    coming round the loop, so the loop closes through the persistence too. */
@@ -29,7 +29,7 @@ const CORE_CX = 0.672
 const CORE_CY = 0.468
 const WORLD_PX = 130          // CSS pixels per world unit
 const CAM_Z = 3.4
-const PREROLL = 12
+const PREROLL = 8
 
 export async function createScene(canvas, palette) {
   const dpr = Math.max(1, Math.round(canvas.width / LOGICAL.w)) || 1
@@ -45,7 +45,7 @@ export async function createScene(canvas, palette) {
     center: [2 * CORE_CX - 1, 1 - 2 * CORE_CY],
     corePx: [CORE_CX * w, (1 - CORE_CY) * h],
     camZ: CAM_Z,
-    pointBase: 2.25 * dpr,
+    pointBase: 1.95 * dpr,
   }
 
   const geo = buildGeometry()
@@ -63,7 +63,7 @@ export async function createScene(canvas, palette) {
     backdrop.draw(view, p)
     gl.enable(gl.BLEND)
     gl.blendEquation(gl.FUNC_ADD)
-    if (palette.crt) gl.blendFunc(gl.SRC_ALPHA, gl.ONE)
+    if (palette.additive) gl.blendFunc(gl.SRC_ALPHA, gl.ONE)
     else gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
     rings.draw(view, p)
     core.draw(view, p)

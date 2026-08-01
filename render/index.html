@@ -20,10 +20,13 @@
   --rule:rgba(0,255,102,.20);
   --scan:.30;
 }
+/* The light variant is a schematic, not an inverted terminal: the dims have to
+   be genuinely dark or they vanish on #f6f8fa, and the phosphor glow is dropped
+   entirely (a glow on paper reads as a printing misregistration). */
 html[data-theme="light"]{
-  --phos:#0f62fe; --phos-bright:#002d9c; --phos-dim:#4a6a92; --phos-dark:#c9d6e6;
-  --ink:#0a1a33;
-  --rule:rgba(15,98,254,.26);
+  --phos:#0f62fe; --phos-bright:#002d9c; --phos-dim:#33507a; --phos-dark:#aebfd6;
+  --ink:#001233;
+  --rule:rgba(15,98,254,.34);
   --scan:0;
 }
 
@@ -56,10 +59,12 @@ canvas{position:absolute;inset:0;width:var(--w);height:var(--h);display:block}
 
 #mark{position:absolute;left:58px;top:60px;font-family:"CerberusDisplay",monospace;
   font-size:104px;line-height:.9;letter-spacing:.055em;color:var(--ink);
+  /* Three tight radii, not one wide one. A single 70px shadow renders as a
+     rectangular green smudge around the word block rather than as a glow. */
   text-shadow:
-    0 0 calc(2px + 10px*var(--glow)) rgb(0 255 102 / calc(.55*var(--glow))),
-    0 0 calc(6px + 34px*var(--glow)) rgb(0 255 102 / calc(.30*var(--glow))),
-    0 0 calc(10px + 70px*var(--glow)) rgb(0 255 102 / calc(.16*var(--glow)));
+    0 0 calc(1px + 6px*var(--glow))  rgb(0 255 102 / calc(.58*var(--glow))),
+    0 0 calc(4px + 18px*var(--glow)) rgb(0 255 102 / calc(.26*var(--glow))),
+    0 0 calc(8px + 40px*var(--glow)) rgb(0 255 102 / calc(.10*var(--glow)));
   white-space:pre}
 html[data-theme="light"] #mark{text-shadow:none}
 
@@ -146,7 +151,6 @@ const scene = await createScene(canvas, paletteFor(theme))
 
 const root = document.documentElement
 const boot = document.querySelector("#boot")
-const mark = document.querySelector("#mark")
 const hud = document.querySelector("#hud")
 const bootwrap = document.querySelector("#bootwrap")
 
@@ -173,8 +177,10 @@ window.__frame = i => {
   boot.textContent = BOOT_LOG.slice(0, p.bootChars) + caret
   bootwrap.style.opacity = logAlpha(p.u).toFixed(4)
 
-  mark.style.opacity = (0.55 + 0.45 * p.morph).toFixed(4)
-  hud.style.opacity = (0.22 + 0.78 * p.morph).toFixed(4)
+  // The wordmark never fades. Modulating its opacity turned the identity grey
+  // for a quarter of the loop; only the phosphor halo (--glow) breathes, which
+  // is the behaviour of a real tube and leaves the name always solid.
+  hud.style.opacity = (0.46 + 0.54 * p.morph).toFixed(4)
 }
 
 /* Fonts must be RESOLVED, not merely declared, before the driver starts

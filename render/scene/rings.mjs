@@ -57,7 +57,12 @@ void main(){
   p = rotZ(u_roll) * rotX(u_tiltX) * p;
   p = rotX(u_globalTiltX) * rotY(u_wobY) * rotZ(u_rotZ) * p;
 
-  float persp = u_camZ / (u_camZ - p.z);
+  // Depth is deliberately compressed before the perspective divide. A ring tilted
+  // to 1.4 rad reaches z = ±1.7, and a true divide against camZ = 3.4 scales its
+  // near side by 2x — the ring balloons to twice its radius and runs off the
+  // banner. Compressing z keeps the tilt (which comes from the y extent anyway)
+  // and keeps the ring inside the frame.
+  float persp = u_camZ / (u_camZ - p.z * 0.30);
   gl_Position = vec4(u_center + p.xy * u_scale * persp, 0.0, 1.0);
 
   // A bright head chasing around the ring, over a faint constant track. The

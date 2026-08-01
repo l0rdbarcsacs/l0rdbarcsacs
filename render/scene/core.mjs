@@ -115,7 +115,9 @@ export function buildGeometry(seed = SEED) {
       target[i * 3 + 0] = Math.cos(ang) * rr + gaussian(rnd) * sd
       target[i * 3 + 1] = Math.sin(ang) * rr + gaussian(rnd) * sd
       target[i * 3 + 2] = gaussian(rnd) * 0.028
-      heat = 0.36 - 0.10 * Math.sin(s * Math.PI)
+      // Brighter at the ends so each arc visibly LANDS on a blade tip; a crest of
+      // uniform brightness reads as a detached outline floating around the core.
+      heat = 0.32 + 0.20 * (1 - Math.sin(s * Math.PI))
     } else {
       // Sparse halo — keeps the formed state from looking like hard vector art.
       const th = rnd() * TAU
@@ -130,16 +132,19 @@ export function buildGeometry(seed = SEED) {
     // A wide, flattened disc. 58% of it sits on three loose spiral arms — the
     // three-fold idea is already present before the morph resolves it — and the
     // rest is diffuse haze so the arms do not read as a diagram.
-    const nr = 0.70 + 1.34 * Math.sqrt(rnd())
-    const arm = rnd() < 0.58
+    const nr = 0.55 + 1.20 * Math.sqrt(rnd())
+    const arm = rnd() < 0.68
     const nth = arm
-      ? a + gaussian(rnd) * 0.42 + nr * 0.92
+      ? a + gaussian(rnd) * 0.24 + nr * 1.30
       : rnd() * TAU
-    nebula[i * 3 + 0] = Math.cos(nth) * nr + gaussian(rnd) * 0.075
-    nebula[i * 3 + 1] = Math.sin(nth) * nr * 0.46 + gaussian(rnd) * 0.055
-    nebula[i * 3 + 2] = gaussian(rnd) * 0.42
+    nebula[i * 3 + 0] = Math.cos(nth) * nr + gaussian(rnd) * 0.070
+    nebula[i * 3 + 1] = Math.sin(nth) * nr * 0.62 + gaussian(rnd) * 0.055
+    nebula[i * 3 + 2] = gaussian(rnd) * 0.38
 
-    attrs[i * 4 + 0] = 0.62 + rnd() * 0.82   // size jitter
+    // ~4% of the population are "sparks": several times the area of a normal
+    // point. A uniform size distribution renders as an even wash of dust; the
+    // long tail is what makes the arms look energised rather than airbrushed.
+    attrs[i * 4 + 0] = rnd() < 0.042 ? 1.75 + rnd() * 1.05 : 0.60 + rnd() * 0.76
     attrs[i * 4 + 1] = heat
     attrs[i * 4 + 2] = rnd()                 // twinkle phase
     attrs[i * 4 + 3] = rnd()                 // morph offset — staggers the arrival
@@ -197,13 +202,24 @@ void main(){
   gl_Position = vec4(u_center + p.xy * u_scale * persp, 0.0, 1.0);
 
   float tw = 0.84 + 0.16 * sin(u_u * TAU * 3.0 + a_attr.z * TAU);
-  v_heat  = a_attr.y * (0.28 + 0.72 * u_glow) * mix(0.50, 1.0, m);
+
+  // Weighting by heat is what gives the FORMED state its tonal range — the
+  // nucleus burns, the crest is nearly a wireframe, the halo is barely there.
+  // But heat describes where a particle is GOING, so applying it at morph=0
+  // punches the nebula full of holes shaped like the target. The weighting is
+  // therefore mixed in with the morph; in the nebula phase brightness comes from
+  // radius instead, which is what makes a cloud read as a cloud.
+  float nb = 1.18 - 0.58 * clamp(length(a_nebula.xy) / 1.9, 0.0, 1.0);
+  float hw = mix(nb, 0.40 + 1.50 * a_attr.y, m);
+
+  v_heat  = mix(0.52, a_attr.y, m) * (0.42 + 0.58 * u_glow);
   // Additive blending over a dense cluster saturates fast. These are low enough
   // that the lobes keep visible particle texture instead of clipping to a bulb.
-  // The steep heat weighting is what gives the frame tonal range: the nucleus
-  // burns, the crest is nearly a wireframe, and the halo is barely there.
-  v_alpha = (0.055 + 0.135 * m) * tw * (0.42 + 1.30 * a_attr.y);
-  gl_PointSize = u_pointBase * a_attr.x * persp * mix(1.55, 1.0, m) * (0.60 + 1.05 * a_attr.y);
+  // The nebula-phase terms are much larger than the formed-phase ones because
+  // the same total light is spread over roughly nine times the area: matching
+  // the numbers leaves frame 0 looking like dirt on the tube.
+  v_alpha = (0.155 + 0.045 * m) * tw * hw;
+  gl_PointSize = u_pointBase * a_attr.x * persp * mix(2.0 * nb, 0.58 + 1.35 * a_attr.y, m);
 }`
 
 const CORE_FS = `#version 300 es
@@ -220,12 +236,13 @@ void main(){
   if (d > 1.0) discard;
   // Soft halo plus a tight bright centre — a plain gaussian sprite reads as fog,
   // the second term is what makes each particle a point of light.
-  float a = pow(1.0 - d, 1.9) * 0.80 + pow(max(0.0, 1.0 - d * 2.6), 6.0) * 0.60;
+  float a = pow(1.0 - d, 2.4) * 0.78 + pow(max(0.0, 1.0 - d * 2.8), 6.0) * 0.62;
   float h = clamp(v_heat, 0.0, 1.4);
   vec3 c = mix(u_cold, u_warm, clamp(h * 1.75, 0.0, 1.0));
   // The hot tint carries red and blue (#7dffa8); reached too early it stacks
-  // additively into white. Only the nucleus should ever get there.
-  c = mix(c, u_hot, clamp((h - 0.74) * 2.6, 0.0, 1.0));
+  // additively into a cyan-white bead. Only the very centre of the nucleus gets
+  // near it, and even there only about half way.
+  c = mix(c, u_hot, clamp((h - 0.80) * 2.4, 0.0, 0.68));
   frag = vec4(c, a * v_alpha * u_opacity);
 }`
 

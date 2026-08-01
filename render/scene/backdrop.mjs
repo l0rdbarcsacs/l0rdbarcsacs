@@ -22,6 +22,7 @@ uniform vec3  u_bg;
 uniform vec3  u_grid;
 uniform vec3  u_halo;
 uniform float u_gridGain;
+uniform float u_polarity;    // 1 = phosphor on black (add), 0 = ink on paper (subtract)
 out vec4 frag;
 
 // Anti-aliased single-pixel line lattice, one line every "period" device px.
@@ -38,25 +39,35 @@ void main(){
 
   vec3 col = u_bg;
 
-  // Grid: a fine lattice with a heavier decade line. The gains are low on
-  // purpose — the CRT pass applies a 6-tap bloom over everything downstream, so
-  // a grid that looks correct here comes out roughly twice as bright on screen.
-  // Anything above ~0.3 turns the banner into graph paper.
   float fine  = lattice(px, 13.0 * u_dpr, 1.0 * u_dpr);
   float major = lattice(px, 65.0 * u_dpr, 1.0 * u_dpr);
   float gfall = exp(-rad * rad * 0.10);
-  col += u_grid * (fine * 0.16 + major * 0.40) * (0.45 + 0.55 * gfall) * u_gridGain;
+  float halo  = exp(-rad * rad * 1.05) * (0.22 + 0.78 * u_glow);
+  vec2  v     = (px / u_res - 0.5) * vec2(1.32, 1.0);
+  float vig   = smoothstep(0.82, 0.16, length(v));
 
-  // Ambient halo behind the core — this is what stops the particles reading as
-  // confetti on a flat field; it gives them something to sit inside. Tight, and
-  // dim enough that the black stays black two core-radii out.
-  float halo = exp(-rad * rad * 1.05) * (0.22 + 0.78 * u_glow);
-  col += u_halo * halo * 0.62;
-
-  // Vignette, biased so the left third (which carries the type) stays darkest.
-  vec2 v = (px / u_res - 0.5) * vec2(1.32, 1.0);
-  float vig = smoothstep(0.82, 0.16, length(v));
-  col *= mix(0.30, 1.0, vig);
+  if (u_polarity > 0.5) {
+    // Phosphor on black: everything ADDS. The gains are low on purpose — the CRT
+    // pass applies a 6-tap bloom over everything downstream, so a grid that looks
+    // correct here comes out roughly twice as bright on screen. Anything above
+    // ~0.3 turns the banner into graph paper.
+    col += u_grid * (fine * 0.16 + major * 0.40) * (0.45 + 0.55 * gfall) * u_gridGain;
+    // Ambient halo — this is what stops the particles reading as confetti on a
+    // flat field; it gives them something to sit inside. Tight, and dim enough
+    // that the black stays black two core-radii out.
+    col += u_halo * halo * 0.62;
+    // Vignette, biased so the left third (which carries the type) stays darkest.
+    col *= mix(0.30, 1.0, vig);
+  } else {
+    // Ink on paper: the SAME terms have to run the other way. Adding a grid
+    // colour to a #f6f8fa background paints white lines and multiplying by a
+    // vignette turns the paper grey — the light variant is a blueprint, so the
+    // grid darkens the sheet, the halo is a faint blue wash, and the vignette is
+    // a whisper rather than a tunnel.
+    col = mix(col, u_grid, clamp((fine * 0.40 + major * 0.85) * (0.55 + 0.45 * gfall) * u_gridGain, 0.0, 1.0));
+    col = mix(col, u_halo, clamp(halo * 0.75, 0.0, 1.0));
+    col *= mix(0.965, 1.0, vig);
+  }
 
   frag = vec4(col, 1.0);
 }`
@@ -66,7 +77,7 @@ export function createBackdrop(gl, palette) {
   const vao = createFullscreenVAO(gl)
   const U = cacheUniforms(gl, prog, [
     "u_res", "u_corePx", "u_dpr", "u_glow", "u_morph",
-    "u_bg", "u_grid", "u_halo", "u_gridGain",
+    "u_bg", "u_grid", "u_halo", "u_gridGain", "u_polarity",
   ])
 
   return {
@@ -82,7 +93,8 @@ export function createBackdrop(gl, palette) {
       gl.uniform3fv(U.u_bg, palette.bg)
       gl.uniform3fv(U.u_grid, palette.grid)
       gl.uniform3fv(U.u_halo, palette.bgGlow)
-      gl.uniform1f(U.u_gridGain, palette.crt ? 1.0 : 0.85)
+      gl.uniform1f(U.u_gridGain, palette.gridGain)
+      gl.uniform1f(U.u_polarity, palette.additive ? 1 : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       gl.bindVertexArray(null)
     },
