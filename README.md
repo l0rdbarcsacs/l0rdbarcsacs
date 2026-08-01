@@ -119,8 +119,8 @@ flowchart TD
 
 <!-- BEGIN:stats -->
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
-> **98.1% of my commits and pull requests land in private repositories** —
-> 4,577 against 87 public, across 27 closed repos. The code stays closed, the volume does not.
+> **0.0% of my commits and pull requests land in private repositories** —
+> 0 against 87 public, across 0 closed repos. The code stays closed, the volume does not.
 <!-- END:stats -->
 
 <div align="center">
