@@ -1,4 +1,6 @@
 node_modules/
 .env
+
+# 160 frames x 2560x840 PNG per theme — hundreds of MB of intermediates that are
+# regenerable with `node render/capture.mjs`. Never commit these.
 render/frames/
-node_modules/

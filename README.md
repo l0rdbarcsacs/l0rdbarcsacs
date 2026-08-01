@@ -117,8 +117,10 @@ flowchart TD
 
 ## Live telemetry
 
+<!-- BEGIN:stats -->
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
-> <!-- BEGIN:stats -->**4,680 of my 4,777 contributions in the last year are in private repositories** — the code stays closed, the volume does not.<!-- END:stats -->
+> **4,680 of my 4,777 contributions in the last year are in private repositories** — the code stays closed, the volume does not.
+<!-- END:stats -->
 
 <div align="center">
 
@@ -168,7 +170,7 @@ Spanish at [jose.cerberus.cl](https://jose.cerberus.cl).
 account: contribution city, language galaxy, systems in orbit.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Jul 31, 2026, 11:52 p.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 1, 2026, 12:04 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>

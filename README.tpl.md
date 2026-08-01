@@ -117,8 +117,8 @@ flowchart TD
 
 ## Live telemetry
 
-> Regenerated daily from the GitHub API, private repositories included in aggregate.
-> <!-- BEGIN:stats --><!-- END:stats -->
+<!-- BEGIN:stats -->
+<!-- END:stats -->
 
 <div align="center">
 

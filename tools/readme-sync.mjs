@@ -110,9 +110,20 @@ const carryOver = name => {
 }
 
 const commits = stats ? compact(stats.total) : carryOver("commits") || "4.7k"
+
+// The whole blockquote is generated, not just the sentence inside it.
+//
+// An HTML comment at the START of a line opens an HTML block in CommonMark, and
+// everything after it on that line stops being parsed as markdown. A marker
+// written as `> <!-- BEGIN:stats -->**bold**` therefore published literal
+// asterisks to the live profile on 2026-08-01. Owning both blockquote lines keeps
+// every marker comment on its own line, where it is inert.
 const statsLine = stats
-  ? `**${fmt(stats.private)} of my ${fmt(stats.total)} contributions in the last year are in private repositories** — the code stays closed, the volume does not.`
-  : carryOver("stats") || "The code stays closed, the volume does not."
+  ? [
+    "> Regenerated daily from the GitHub API, private repositories included in aggregate.",
+    `> **${fmt(stats.private)} of my ${fmt(stats.total)} contributions in the last year are in private repositories** — the code stays closed, the volume does not.`,
+  ].join("\n")
+  : carryOver("stats") || "> Regenerated daily from the GitHub API, private repositories included in aggregate."
 
 const now = new Date().toLocaleString("en-CA", {timeZone: TZ, dateStyle: "medium", timeStyle: "short"})
 
