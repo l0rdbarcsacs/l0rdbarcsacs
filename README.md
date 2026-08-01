@@ -118,7 +118,7 @@ flowchart TD
 ## Live telemetry
 
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
-> <!-- BEGIN:stats -->**4,680 of my 4,776 contributions in the last year are in private repositories** — the code stays closed, the volume does not.<!-- END:stats -->
+> <!-- BEGIN:stats -->**4,680 of my 4,777 contributions in the last year are in private repositories** — the code stays closed, the volume does not.<!-- END:stats -->
 
 <div align="center">
 
@@ -126,8 +126,7 @@ flowchart TD
 <img src="assets/contrib/contrib-3d.svg" alt="Isometric 3D contribution matrix including private repositories" width="100%">
 <!-- END:contrib3d -->
 
-<img src="assets/panels/metrics-languages.svg" alt="Language distribution across public and private repositories" width="49%">
-<img src="assets/panels/metrics-habits.svg" alt="Commit habits by hour and weekday" width="49%">
+<img src="assets/panels/languages.svg" alt="Language distribution across 55 owned repositories, log-scaled, vendored third-party source excluded" width="100%">
 
 </div>
 
@@ -169,7 +168,7 @@ Spanish at [jose.cerberus.cl](https://jose.cerberus.cl).
 account: contribution city, language galaxy, systems in orbit.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Jul 31, 2026, 11:25 p.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Jul 31, 2026, 11:52 p.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
