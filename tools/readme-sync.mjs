@@ -24,15 +24,29 @@ function esc(s) {
   return decoded.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
 }
 
-/** Live contribution totals, including the private ones that are the whole point. */
+/** Live contribution totals with a real public/private split.
+ *
+ *  NOT restrictedContributionsCount. That field means "contributions I am not
+ *  allowed to show *you*", which is a property of the viewer, not of the work.
+ *  While "include private contributions" was off it happened to equal the private
+ *  count; the moment the setting flipped it dropped from 4,680 to 66 and the
+ *  README's headline claim became false on a live public page (2026-08-01).
+ *
+ *  The split below is derived from the repositories themselves, so it means the
+ *  same thing regardless of who is asking or how the profile is configured. */
 async function fetchContributionStats(token, login = "l0rdbarcsacs") {
   const res = await fetch(GRAPHQL, {
     method: "POST",
     headers: {authorization: `bearer ${token}`, "content-type": "application/json"},
     body: JSON.stringify({
       query: `query($login:String!){ user(login:$login){ contributionsCollection{
-        restrictedContributionsCount
         contributionCalendar{ totalContributions }
+        commitContributionsByRepository(maxRepositories:100){
+          repository{ isPrivate } contributions{ totalCount }
+        }
+        pullRequestContributionsByRepository(maxRepositories:100){
+          repository{ isPrivate } contributions{ totalCount }
+        }
       }}}`,
       variables: {login},
     }),
@@ -42,8 +56,26 @@ async function fetchContributionStats(token, login = "l0rdbarcsacs") {
   const {data, errors} = await res.json()
   if (errors)
     throw new Error(`readme-sync: ${JSON.stringify(errors)}`)
+
   const c = data.user.contributionsCollection
-  return {total: c.contributionCalendar.totalContributions, private: c.restrictedContributionsCount}
+  const tally = key => c[key].reduce((acc, e) => {
+    const n = e.contributions.totalCount
+    return e.repository.isPrivate ? {...acc, private: acc.private + n} : {...acc, public: acc.public + n}
+  }, {private: 0, public: 0})
+
+  const commits = tally("commitContributionsByRepository")
+  const prs = tally("pullRequestContributionsByRepository")
+  const priv = commits.private + prs.private
+  const pub = commits.public + prs.public
+  const attributed = priv + pub
+
+  return {
+    total: c.contributionCalendar.totalContributions,
+    private: priv,
+    public: pub,
+    privateRepos: c.commitContributionsByRepository.filter(e => e.repository.isPrivate).length,
+    share: attributed ? priv / attributed : 0,
+  }
 }
 
 const fmt = n => n.toLocaleString("en-US")
@@ -121,7 +153,8 @@ const commits = stats ? compact(stats.total) : carryOver("commits") || "4.7k"
 const statsLine = stats
   ? [
     "> Regenerated daily from the GitHub API, private repositories included in aggregate.",
-    `> **${fmt(stats.private)} of my ${fmt(stats.total)} contributions in the last year are in private repositories** — the code stays closed, the volume does not.`,
+    `> **${(stats.share * 100).toFixed(1)}% of my commits and pull requests land in private repositories** —`,
+    `> ${fmt(stats.private)} against ${fmt(stats.public)} public, across ${stats.privateRepos} closed repos. The code stays closed, the volume does not.`,
   ].join("\n")
   : carryOver("stats") || "> Regenerated daily from the GitHub API, private repositories included in aggregate."
 

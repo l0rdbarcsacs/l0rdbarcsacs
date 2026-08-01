@@ -119,7 +119,8 @@ flowchart TD
 
 <!-- BEGIN:stats -->
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
-> **4,680 of my 4,777 contributions in the last year are in private repositories** — the code stays closed, the volume does not.
+> **98.1% of my commits and pull requests land in private repositories** —
+> 4,577 against 87 public, across 27 closed repos. The code stays closed, the volume does not.
 <!-- END:stats -->
 
 <div align="center">
@@ -171,7 +172,7 @@ raw WebGL2: a living neural-network background, GSAP window choreography, fourte
 apps, and an accessible plain-text mode. The same phosphor system as this page.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Aug 1, 2026, 12:13 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 1, 2026, 12:20 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
