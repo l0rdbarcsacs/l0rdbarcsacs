@@ -1,0 +1,51 @@
+name: panels
+
+# Regenerates the two data panels in this README from the GitHub API.
+#
+# lowlighter/metrics is deliberately NOT used here. Measured on 2026-07-31 against
+# this account: its isocalendar duplicates tools/contrib3d exactly; its `habits`
+# plugin rendered a red "Unexpected error" because it reads the PUBLIC events API,
+# which is blind to an account whose work is 98% private; and its `languages`
+# plugin counted 7.3 MB of vendored third-party Java as 15% of the chart. The
+# renderers in tools/ produce the same data honestly, in our own typography, with
+# no 2.4 GB container in the loop.
+
+on:
+  schedule: [{cron: "17 6 * * *"}]     # 06:17 UTC ≈ 02:17 America/Santiago
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
+      PRIVACY_DENYLIST: ${{ secrets.PRIVACY_DENYLIST }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+
+      - name: Isometric contribution matrix
+        run: node tools/contrib3d/cli.mjs assets/contrib/contrib-3d.svg
+
+      - name: Language distribution
+        run: node tools/langpanel/cli.mjs assets/panels/languages.svg
+
+      - name: Sync generated README sections
+        run: node tools/readme-sync.mjs
+
+      # Runs before the commit, never after: a leak that reaches the default branch
+      # of a public repository is already public, even if reverted a minute later.
+      - name: Privacy guard
+        run: node tools/privacy-guard/cli.mjs 'README.md' 'assets/**/*.svg'
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets README.md
+          git diff --staged --quiet || git commit -m "chore(panels): refresh telemetry [skip ci]"
+          git push

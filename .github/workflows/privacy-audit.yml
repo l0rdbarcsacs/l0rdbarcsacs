@@ -1,0 +1,22 @@
+name: privacy-audit
+
+on:
+  push:
+    branches: [main]
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - name: Scan README and generated assets for private-name leaks
+        env:
+          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          PRIVACY_DENYLIST: ${{ secrets.PRIVACY_DENYLIST }}
+        run: |
+          node tools/privacy-guard/cli.mjs \
+            'README.md' 'README.tpl.md' 'assets/**/*.svg'

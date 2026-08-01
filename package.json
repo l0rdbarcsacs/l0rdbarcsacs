@@ -1,0 +1,16 @@
+{
+  "name": "cerberus-public-terminal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generators for the CERBERUS // PUBLIC TERMINAL GitHub profile README.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tools/**/*.test.mjs render/*.test.mjs",
+    "capture": "node render/capture.mjs --theme dark",
+    "capture:light": "node render/capture.mjs --theme light"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
+  }
+}

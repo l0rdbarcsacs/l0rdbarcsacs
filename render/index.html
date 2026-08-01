@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>CERBERUS // PUBLIC TERMINAL — hero</title>
+<style>
+/* Fonts are the local copies under render/fonts/, referenced RELATIVELY so this
+   page opens from a fresh clone with no absolute paths baked in. They are the
+   same subset faces packages/fonts embeds into the SVG panels, so the hero and
+   the panels are typographically the same object. */
+@font-face{font-family:"CerberusDisplay";src:url("./fonts/vt323-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"CerberusMono";src:url("./fonts/plex-mono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"CerberusMono";src:url("./fonts/plex-mono-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:block}
+
+:root{
+  --glow:1;
+  --w:1280px; --h:420px;
+  --phos:#00ff66; --phos-bright:#7dffa8; --phos-dim:#00a846; --phos-dark:#003b16;
+  --ink:#e8ffef;
+  --rule:rgba(0,255,102,.20);
+  --scan:.30;
+}
+html[data-theme="light"]{
+  --phos:#0f62fe; --phos-bright:#002d9c; --phos-dim:#4a6a92; --phos-dark:#c9d6e6;
+  --ink:#0a1a33;
+  --rule:rgba(15,98,254,.26);
+  --scan:0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:var(--w);height:var(--h);overflow:hidden;background:#000}
+html[data-theme="light"] body{background:#f6f8fa}
+
+#stage{position:relative;width:var(--w);height:var(--h)}
+canvas{position:absolute;inset:0;width:var(--w);height:var(--h);display:block}
+
+/* ── Layer 4: typography + HUD, DOM over the canvas ─────────────────────────
+   DOM rather than WebGL text: the wordmark has to stay razor-crisp through a
+   2x downsample and a WebP quantiser, and a rasterised webfont beats any SDF
+   we could ship in a shader. */
+#ui{position:absolute;inset:0;font-family:"CerberusMono",monospace;
+    -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+/* Instrument frame */
+#frame{position:absolute;inset:14px;border:1px solid var(--phos-dark);opacity:.85}
+#frame::before,#frame::after{content:"";position:absolute;width:16px;height:16px}
+#frame::before{left:-1px;top:-1px;border-left:2px solid var(--phos-dim);border-top:2px solid var(--phos-dim)}
+#frame::after{right:-1px;bottom:-1px;border-right:2px solid var(--phos-dim);border-bottom:2px solid var(--phos-dim)}
+#frame2{position:absolute;inset:14px;pointer-events:none}
+#frame2::before,#frame2::after{content:"";position:absolute;width:16px;height:16px}
+#frame2::before{right:-1px;top:-1px;border-right:2px solid var(--phos-dim);border-top:2px solid var(--phos-dim)}
+#frame2::after{left:-1px;bottom:-1px;border-left:2px solid var(--phos-dim);border-bottom:2px solid var(--phos-dim)}
+
+#kicker{position:absolute;left:62px;top:44px;font-size:11px;font-weight:700;
+  letter-spacing:.34em;color:var(--phos-dim);white-space:pre}
+
+#mark{position:absolute;left:58px;top:60px;font-family:"CerberusDisplay",monospace;
+  font-size:104px;line-height:.9;letter-spacing:.055em;color:var(--ink);
+  text-shadow:
+    0 0 calc(2px + 10px*var(--glow)) rgb(0 255 102 / calc(.55*var(--glow))),
+    0 0 calc(6px + 34px*var(--glow)) rgb(0 255 102 / calc(.30*var(--glow))),
+    0 0 calc(10px + 70px*var(--glow)) rgb(0 255 102 / calc(.16*var(--glow)));
+  white-space:pre}
+html[data-theme="light"] #mark{text-shadow:none}
+
+#rule{position:absolute;left:62px;top:166px;width:312px;height:1px;background:var(--rule)}
+#rule::after{content:"";position:absolute;left:0;top:-1px;width:64px;height:3px;background:var(--phos);
+  opacity:calc(.35 + .65*var(--glow))}
+
+#role{position:absolute;left:62px;top:180px;font-size:12.5px;font-weight:700;
+  letter-spacing:.30em;color:var(--phos);white-space:pre}
+html[data-theme="light"] #role{color:var(--phos-bright)}
+
+#bootwrap{position:absolute;left:62px;top:216px;width:400px}
+#boot{font-size:11.5px;line-height:1.62;letter-spacing:.01em;color:var(--phos-dim);
+  white-space:pre;min-height:112px}
+#cursor{display:inline-block;width:7px;height:11px;background:var(--phos);
+  vertical-align:-1px;margin-left:1px}
+
+#place{position:absolute;right:62px;top:44px;font-size:10px;font-weight:700;
+  letter-spacing:.30em;color:var(--phos-dim);white-space:pre;text-align:right}
+
+/* Bottom-left anchor. Without it the left column stops at the boot log and the
+   lower-left ninth of the frame is dead space against a right side carrying the
+   whole HUD. */
+#link{position:absolute;left:62px;bottom:44px;font-size:11px;font-weight:700;
+  letter-spacing:.20em;color:var(--phos);white-space:pre;opacity:.85}
+#link span{color:var(--phos-dim)}
+
+#hud{position:absolute;right:60px;bottom:38px;display:flex;gap:26px;align-items:flex-end}
+.stat{text-align:right;min-width:74px}
+.stat b{display:block;font-family:"CerberusDisplay",monospace;font-weight:400;
+  font-size:34px;line-height:.86;letter-spacing:.02em;color:var(--phos-bright);
+  text-shadow:0 0 calc(8px*var(--glow)) rgb(0 255 102 / calc(.45*var(--glow)))}
+html[data-theme="light"] .stat b{color:var(--phos-bright);text-shadow:none}
+.stat i{display:block;margin-top:5px;font-style:normal;font-size:8.5px;font-weight:700;
+  letter-spacing:.20em;color:var(--phos-dim);white-space:pre}
+.stat+.stat{border-left:1px solid var(--phos-dark);padding-left:26px}
+
+/* Scanlines sit over EVERYTHING, canvas and type alike. Without this the CRT
+   treatment stops dead at the edge of the wordmark and the composite reads as
+   two unrelated layers pasted together. */
+#scan{position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,
+    rgb(0 0 0 / 0) 0px, rgb(0 0 0 / 0) 2px,
+    rgb(0 0 0 / var(--scan)) 2px, rgb(0 0 0 / var(--scan)) 3px);
+  mix-blend-mode:multiply}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas></canvas>
+  <div id="ui">
+    <div id="frame"></div><div id="frame2"></div>
+    <div id="kicker">CERBERUS // PUBLIC TERMINAL</div>
+    <div id="mark">CERBERUS</div>
+    <div id="rule"></div>
+    <div id="role">AI ENGINEER &amp; TECH LEAD</div>
+    <div id="bootwrap"><div id="boot"></div></div>
+    <div id="place">SANTIAGO ▪ CL</div>
+    <div id="link">▸ jose.cerberus.cl<span>   ▸ cerberus.cl</span></div>
+    <div id="hud">
+      <div class="stat"><b>15ms</b><i>GPU INFERENCE</i></div>
+      <div class="stat"><b>84</b><i>INSTRUMENTS</i></div>
+      <div class="stat"><b>20+</b><i>AGENTS LIVE</i></div>
+      <div class="stat"><b>4.7k</b><i>COMMITS / YR</i></div>
+    </div>
+  </div>
+  <div id="scan"></div>
+</div>
+
+<script type="module">
+import {paramsAt, FRAMES, BOOT_LOG} from "./timeline.mjs"
+import {createScene, LOGICAL} from "./scene/index.mjs"
+import {paletteFor} from "./scene/palette.mjs"
+
+const theme = new URLSearchParams(location.search).get("theme") === "light" ? "light" : "dark"
+document.documentElement.dataset.theme = theme
+
+const canvas = document.querySelector("canvas")
+const dpr = window.devicePixelRatio || 1
+canvas.width = Math.round(LOGICAL.w * dpr)
+canvas.height = Math.round(LOGICAL.h * dpr)
+
+const scene = await createScene(canvas, paletteFor(theme))
+
+const root = document.documentElement
+const boot = document.querySelector("#boot")
+const mark = document.querySelector("#mark")
+const hud = document.querySelector("#hud")
+const bootwrap = document.querySelector("#bootwrap")
+
+const clamp01 = x => x < 0 ? 0 : x > 1 ? 1 : x
+const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t) }
+
+/* The boot log is the one element whose timeline value is NOT periodic:
+   bootChars runs 0 -> full and holds, so at the loop point it would snap from a
+   full log back to an empty one. Its opacity envelope closes that seam — the log
+   is dark at both ends of the loop, so the snap happens while it is invisible.
+   This lives here rather than in timeline.mjs because it is a presentation
+   decision, and timeline.mjs is under unit test as a pure parameter source. */
+const logAlpha = u => smooth(0.015, 0.16, u) * (1 - smooth(0.80, 0.985, u))
+
+window.__FRAMES = FRAMES
+window.__frame = i => {
+  const p = paramsAt(i)
+  scene.render(p)
+
+  root.style.setProperty("--glow", p.glow.toFixed(4))
+
+  // Blink period 20 frames: 160 % 20 === 0, so the cursor state is periodic.
+  const caret = p.bootChars < BOOT_LOG.length ? "_" : (i % 20 < 12 ? "_" : " ")
+  boot.textContent = BOOT_LOG.slice(0, p.bootChars) + caret
+  bootwrap.style.opacity = logAlpha(p.u).toFixed(4)
+
+  mark.style.opacity = (0.55 + 0.45 * p.morph).toFixed(4)
+  hud.style.opacity = (0.22 + 0.78 * p.morph).toFixed(4)
+}
+
+/* Fonts must be RESOLVED, not merely declared, before the driver starts
+   screenshotting: an unloaded @font-face silently renders in the fallback face
+   and the first frames come out in the wrong typography. document.fonts.ready
+   alone is not enough — faces load lazily, so they are forced first. */
+await Promise.all([
+  document.fonts.load('400 104px "CerberusDisplay"'),
+  document.fonts.load('400 12px "CerberusMono"'),
+  document.fonts.load('700 12px "CerberusMono"'),
+])
+await document.fonts.ready
+
+window.__frame(0)
+window.__ready = true
+</script>
+</body>
+</html>

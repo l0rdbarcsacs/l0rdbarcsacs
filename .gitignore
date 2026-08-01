@@ -1,0 +1,4 @@
+node_modules/
+.env
+render/frames/
+node_modules/
