@@ -74,7 +74,13 @@ export const LIGHT = {
   grid: f("#c4d0e0"),
   particle: f(tokens.color.ibm.blueDark),
   particleHot: f(tokens.color.ibm.blueDeep),
-  particleCold: f("#9fb3cc"),
+  // Was #9fb3cc, roughly 1.4:1 against the #f6f8fa sheet. The cold colour is what
+  // the dispersed phase of the loop is painted in, so for about a third of the 8 s
+  // the banner read as an empty grid on white — the first thing a light-theme
+  // visitor sees. Ink on paper gets none of the additive glow that lets the dark
+  // variant stay faint and still register, so the cold end must carry its own
+  // contrast. Verified on the live profile before and after.
+  particleCold: f("#5f7fa6"),
   ring: f(tokens.color.ibm.blueDeep),
   ringHot: f(tokens.color.ibm.blueDark),
   additive: false,
@@ -84,7 +90,7 @@ export const LIGHT = {
   barrel: 0.0,
   decay: 0.0,
   grain: 0.0,
-  alpha: 0.85,
+  alpha: 0.95,
 }
 
 export function paletteFor(name) {
