@@ -26,6 +26,15 @@ if [ "$THEME" = "dark" ]; then
     -vf "scale=1280:420:flags=lanczos" -y "$OUT/hero-static.png"
 fi
 
-SIZE=$(stat -c%s "$OUT/hero-$THEME.webp")
+# Assert the encoder actually produced an animated WebP. ffmpeg has reported a
+# success line for a file that reached the commit at 0 bytes (2026-08-01), which
+# served a broken image to every light-theme visitor until it was caught by
+# loading the real profile page. Trust the bytes, not the exit code.
+FILE="$OUT/hero-$THEME.webp"
+SIZE=$(stat -c%s "$FILE")
+[ "$SIZE" -gt 100000 ] || { echo "encode: $FILE is $SIZE bytes — encoder produced nothing usable" >&2; exit 1; }
+grep -qa ANMF "$FILE" || { echo "encode: $FILE has no ANMF chunk — not an animated WebP" >&2; exit 1; }
+FRAMES_OUT=$(grep -ac ANMF "$FILE" || true)
+echo "encode[$THEME]: verified animated WebP, ANMF chunks present"
 printf 'encode[%s]: %s KB (budget %s KB)\n' "$THEME" $((SIZE / 1024)) $((BUDGET / 1024))
 [ "$SIZE" -le "$BUDGET" ] || { echo "encode: OVER BUDGET — lower grain in scene/palette.mjs" >&2; exit 1; }
