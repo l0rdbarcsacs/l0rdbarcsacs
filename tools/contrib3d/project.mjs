@@ -29,15 +29,6 @@ export function boxFaces(col, row, h, geo) {
   }
 }
 
-/** Contribution count → box height. sqrt compression keeps a single 200-commit
- *  day from dwarfing an entire year of steady 5-commit days. */
-export function heightFor(count, max, {unitH}) {
-  if (count <= 0)
-    return 0
-  const safeMax = Math.max(max, 1)
-  return unitH * (1 + 7 * Math.sqrt(count / safeMax))
-}
-
 /** Bounding box of the whole grid including the tallest possible box. */
 export function gridBounds({cols, rows, maxHeight}, geo) {
   const corners = [
