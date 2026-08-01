@@ -68,9 +68,27 @@ async function fetchContributionStats(token, login = "l0rdbarcsacs") {
   const priv = commits.private + prs.private
   const pub = commits.public + prs.public
   const attributed = priv + pub
+  const total = c.contributionCalendar.totalContributions
+
+  // Fail closed on an implausible answer.
+  //
+  // *ByRepository returns repository objects, so a token that cannot see private
+  // repositories reports every contribution as public — while the calendar total
+  // still reads ~4,800 because that figure is public once the profile setting is
+  // on. The two disagree, and the section renders "0.0% of my commits land in
+  // private repositories" directly under a 4,777-box private contribution city.
+  //
+  // That exact contradiction was published to the live profile on 2026-08-01 by a
+  // CI run whose token had narrower visibility than the local one. Refusing to
+  // emit is right: the caller carries over the previous value, and a stale true
+  // number beats a fresh false one.
+  if (attributed < total * 0.5)
+    throw new Error(`readme-sync: only ${attributed} of ${total} contributions could be attributed to a repository — the token cannot see private repos`)
+  if (priv === 0 && total > 500)
+    throw new Error(`readme-sync: token reports 0 private contributions against a ${total} total — refusing to publish an implausible split`)
 
   return {
-    total: c.contributionCalendar.totalContributions,
+    total,
     private: priv,
     public: pub,
     privateRepos: c.commitContributionsByRepository.filter(e => e.repository.isPrivate).length,
