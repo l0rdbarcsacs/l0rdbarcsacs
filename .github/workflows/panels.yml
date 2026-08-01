@@ -13,9 +13,19 @@ name: panels
 on:
   schedule: [{cron: "17 6 * * *"}]     # 06:17 UTC ≈ 02:17 America/Santiago
   workflow_dispatch:
+  push:
+    paths: ["README.tpl.md", "tools/**"]
 
 permissions:
   contents: write
+
+# This is the ONLY workflow that writes to the repository. A second workflow that
+# also regenerated and committed README.md raced this one and lost the push on
+# 2026-08-01: two jobs owning the same file is a collision waiting for a schedule
+# to drift. One writer, serialised.
+concurrency:
+  group: panels-write
+  cancel-in-progress: false
 
 jobs:
   render:
@@ -47,5 +57,9 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets README.md
-          git diff --staged --quiet || git commit -m "chore(panels): refresh telemetry [skip ci]"
+          git diff --staged --quiet && { echo "nothing changed"; exit 0; }
+          git commit -m "chore(panels): refresh telemetry [skip ci]"
+          # Re-runs check out the original SHA, so the branch may have moved on.
+          git pull --rebase origin main
           git push
+          exit 0
