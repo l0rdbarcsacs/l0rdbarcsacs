@@ -16,7 +16,7 @@ const arg = name => {
 }
 const out = argv.find((a, i) => !a.startsWith("--") && argv[i - 1] !== "--config") ?? "language-panel.svg"
 
-const token = process.env.GITHUB_TOKEN ?? process.env.METRICS_TOKEN
+const token = process.env.METRICS_TOKEN ?? process.env.GITHUB_TOKEN
 if (!token)
   throw new Error("langpanel: GITHUB_TOKEN is required")
 

@@ -12,7 +12,7 @@ const arg = name => {
   return i >= 0 ? process.argv[i + 1] : null
 }
 
-const token = process.env.GITHUB_TOKEN ?? process.env.METRICS_TOKEN
+const token = process.env.METRICS_TOKEN ?? process.env.GITHUB_TOKEN
 if (!token)
   throw new Error("contrib3d: GITHUB_TOKEN is required")
 

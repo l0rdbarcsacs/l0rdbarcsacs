@@ -18,7 +18,7 @@ const configValueIndex = configIndex >= 0 ? configIndex + 1 : -1
 const globs = args.filter((a, i) => !a.startsWith("--") && i !== configValueIndex)
 
 const config = loadConfig({path: configPath})
-const token = process.env.GITHUB_TOKEN ?? process.env.METRICS_TOKEN
+const token = process.env.METRICS_TOKEN ?? process.env.GITHUB_TOKEN
 if (!token)
   throw new Error("privacy-guard: GITHUB_TOKEN is required")
 

@@ -139,7 +139,7 @@ try {
 // a token outage must never publish "NaN commits/year" to a public profile.
 let stats = null
 try {
-  const token = process.env.GITHUB_TOKEN ?? process.env.METRICS_TOKEN
+  const token = process.env.METRICS_TOKEN ?? process.env.GITHUB_TOKEN
   if (!token)
     throw new Error("no GITHUB_TOKEN — contribution stats skipped")
   stats = await fetchContributionStats(token)

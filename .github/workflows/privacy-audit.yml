@@ -15,7 +15,7 @@ jobs:
         with: {node-version: "22"}
       - name: Scan README and generated assets for private-name leaks
         env:
-          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
           PRIVACY_DENYLIST: ${{ secrets.PRIVACY_DENYLIST }}
         run: |
           node tools/privacy-guard/cli.mjs \
