@@ -1,9 +1,9 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="assets/hero/hero-light.webp">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/hero/hero-dark.webp">
-  <img alt="CERBERUS // PUBLIC TERMINAL — José Ignacio Concha Araya, AI Engineer & Tech Lead" src="assets/hero/hero-static.png" width="100%">
+  <source media="(prefers-color-scheme: light)" srcset="assets/hero/v2/hero-light.webp">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/hero/v2/hero-dark.webp">
+  <img alt="CERBERUS // PUBLIC TERMINAL — José Ignacio Concha Araya, AI Engineer & Tech Lead" src="assets/hero/v2/hero-static.png" width="100%">
 </picture>
 
 **AI Engineer & Tech Lead** · CTO [@Cerberus Soluciones](https://cerberus.cl) · Sr. Tech Lead [@Open Source Integrators](https://opensourceintegrators.com)<br>
@@ -170,7 +170,7 @@ Spanish at [jose.cerberus.cl](https://jose.cerberus.cl).
 account: contribution city, language galaxy, systems in orbit.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Aug 1, 2026, 12:07 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 1, 2026, 12:12 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>

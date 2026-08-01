@@ -7,7 +7,7 @@ set -euo pipefail
 THEME="${1:-dark}"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 FRAMES="$DIR/frames/$THEME"
-OUT="$DIR/../assets/hero"
+OUT="$DIR/../assets/hero/v2"
 BUDGET=$((2 * 1024 * 1024))
 
 [ -d "$FRAMES" ] || { echo "encode: no frames at $FRAMES — run capture.mjs first" >&2; exit 1; }
