@@ -172,7 +172,7 @@ raw WebGL2: a living neural-network background, GSAP window choreography, fourte
 apps, and an accessible plain-text mode. The same phosphor system as this page.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Aug 1, 2026, 12:20 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 1, 2026, 12:24 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
