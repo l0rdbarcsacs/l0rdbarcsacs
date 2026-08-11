@@ -382,6 +382,7 @@
 <g class="c" style="animation-delay:0.559s"><polygon points="645.0,364.5 660.0,372.0 660.0,420.0 645.0,412.5" fill="#38734c"/><polygon points="660.0,372.0 675.0,364.5 675.0,412.5 660.0,420.0" fill="#55ad72"/><polygon points="660.0,357.0 675.0,364.5 660.0,372.0 645.0,364.5" fill="#7dffa8" class="lit"/></g>
 <g class="c" style="animation-delay:0.559s"><polygon points="690.0,405.0 705.0,412.5 690.0,420.0 675.0,412.5" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.559s"><polygon points="705.0,397.4 720.0,404.9 720.0,420.0 705.0,412.5" fill="#001b0a"/><polygon points="720.0,404.9 735.0,397.4 735.0,412.5 720.0,420.0" fill="#00280f"/><polygon points="720.0,389.9 735.0,397.4 720.0,404.9 705.0,397.4" fill="#003b16"/></g>
+<g class="c" style="animation-delay:0.559s"><polygon points="750.0,405.0 765.0,412.5 750.0,420.0 735.0,412.5" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="630.0,374.0 645.0,381.5 645.0,427.5 630.0,420.0" fill="#38734c"/><polygon points="645.0,381.5 660.0,374.0 660.0,420.0 645.0,427.5" fill="#55ad72"/><polygon points="645.0,366.5 660.0,374.0 645.0,381.5 630.0,374.0" fill="#7dffa8" class="lit"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="660.0,379.4 675.0,386.9 675.0,427.5 660.0,420.0" fill="#1c733d"/><polygon points="675.0,386.9 690.0,379.4 690.0,420.0 675.0,427.5" fill="#2bad5c"/><polygon points="675.0,371.9 690.0,379.4 675.0,386.9 660.0,379.4" fill="#3fff87" class="lit"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="690.0,381.3 705.0,388.8 705.0,427.5 690.0,420.0" fill="#00732e"/><polygon points="705.0,388.8 720.0,381.3 720.0,420.0 705.0,427.5" fill="#00ad45"/><polygon points="705.0,373.8 720.0,381.3 705.0,388.8 690.0,381.3" fill="#00ff66" class="lit"/></g>
@@ -396,7 +397,7 @@
 <text class="mc" x="940" y="57" font-size="10" text-anchor="end">CONTRIBUTIONS</text>
 <rect x="818" y="176" width="122" height="1" fill="#003b16"/>
 <text class="mc" x="884" y="200" font-size="10" text-anchor="end">PEAK DAY</text><text class="hl" x="940" y="200" font-size="10" text-anchor="end">238</text>
-<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">183/366</text>
+<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">183/367</text>
 <text class="mc" x="884" y="236" font-size="10" text-anchor="end">MEDIAN</text><text class="hl" x="940" y="236" font-size="10" text-anchor="end">7</text>
 <text class="mc" x="40" y="515" font-size="10">COMMITS PER DAY · LOG SCALE · P98 154</text>
 <text class="mc" x="40" y="533.5" font-size="10">LOW</text>
