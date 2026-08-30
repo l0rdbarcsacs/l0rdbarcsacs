@@ -176,7 +176,7 @@ above in orbit. Static by construction, data baked from the API at deploy time.
 WebGL2: a living neural-network background, fourteen desktop apps, and a plain-text mode.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Aug 29, 2026, 8:40 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Aug 30, 2026, 7:53 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
