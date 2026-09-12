@@ -392,6 +392,7 @@
 <g class="c" style="animation-delay:0.579s"><polygon points="705.0,397.0 720.0,404.5 720.0,435.0 705.0,427.5" fill="#005f27"/><polygon points="720.0,404.5 735.0,397.0 735.0,427.5 720.0,435.0" fill="#00903a"/><polygon points="720.0,389.5 735.0,397.0 720.0,404.5 705.0,397.0" fill="#00d456"/></g>
 <g class="c" style="animation-delay:0.590s"><polygon points="660.0,423.2 675.0,430.7 675.0,442.5 660.0,435.0" fill="#001308"/><polygon points="675.0,430.7 690.0,423.2 690.0,435.0 675.0,442.5" fill="#001d0c"/><polygon points="675.0,415.7 690.0,423.2 675.0,430.7 660.0,423.2" fill="#002b11"/></g>
 <g class="c" style="animation-delay:0.590s"><polygon points="705.0,427.5 720.0,435.0 705.0,442.5 690.0,435.0" fill="#001a0b" class="gd"/></g>
+<g class="c" style="animation-delay:0.600s"><polygon points="690.0,435.0 705.0,442.5 690.0,450.0 675.0,442.5" fill="#001a0b" class="gd"/></g>
 <text class="mc" x="-49" y="98.5" font-size="10" text-anchor="end">SEP</text><text class="mc" x="11" y="128.5" font-size="10" text-anchor="end">OCT</text><text class="mc" x="86" y="166" font-size="10" text-anchor="end">NOV</text><text class="mc" x="146" y="196" font-size="10" text-anchor="end">DEC</text><text class="mc" x="206" y="226" font-size="10" text-anchor="end">JAN</text><text class="mc" x="266" y="256" font-size="10" text-anchor="end">FEB</text><text class="mc" x="341" y="293.5" font-size="10" text-anchor="end">MAR</text><text class="mc" x="401" y="323.5" font-size="10" text-anchor="end">APR</text><text class="mc" x="476" y="361" font-size="10" text-anchor="end">MAY</text><text class="mc" x="536" y="391" font-size="10" text-anchor="end">JUN</text><text class="mc" x="596" y="421" font-size="10" text-anchor="end">JUL</text><text class="mc" x="671" y="458.5" font-size="10" text-anchor="end">AUG</text>
 </g>
 <text class="hd" x="40" y="36" font-size="30">CONTRIBUTION MATRIX</text>
@@ -400,7 +401,7 @@
 <text class="mc" x="940" y="57" font-size="10" text-anchor="end">CONTRIBUTIONS</text>
 <rect x="818" y="176" width="122" height="1" fill="#003b16"/>
 <text class="mc" x="884" y="200" font-size="10" text-anchor="end">PEAK DAY</text><text class="hl" x="940" y="200" font-size="10" text-anchor="end">238</text>
-<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">197/370</text>
+<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">197/371</text>
 <text class="mc" x="884" y="236" font-size="10" text-anchor="end">MEDIAN</text><text class="hl" x="940" y="236" font-size="10" text-anchor="end">8</text>
 <text class="mc" x="40" y="520" font-size="10">COMMITS PER DAY · LOG SCALE · P98 154</text>
 <text class="mc" x="40" y="538.5" font-size="10">LOW</text>
