@@ -382,6 +382,7 @@
 <g class="c" style="animation-delay:0.559s"><polygon points="660.0,405.0 675.0,412.5 660.0,420.0 645.0,412.5" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.559s"><polygon points="690.0,405.0 705.0,412.5 690.0,420.0 675.0,412.5" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.559s"><polygon points="720.0,405.0 735.0,412.5 720.0,420.0 705.0,412.5" fill="#001a0b" class="gd"/></g>
+<g class="c" style="animation-delay:0.559s"><polygon points="750.0,405.0 765.0,412.5 750.0,420.0 735.0,412.5" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="645.0,412.5 660.0,420.0 645.0,427.5 630.0,420.0" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="675.0,412.5 690.0,420.0 675.0,427.5 660.0,420.0" fill="#001a0b" class="gd"/></g>
 <g class="c" style="animation-delay:0.569s"><polygon points="690.0,380.0 705.0,387.5 705.0,427.5 690.0,420.0" fill="#00732e"/><polygon points="705.0,387.5 720.0,380.0 720.0,420.0 705.0,427.5" fill="#00ad45"/><polygon points="705.0,372.5 720.0,380.0 705.0,387.5 690.0,380.0" fill="#00ff66" class="lit"/></g>
@@ -396,7 +397,7 @@
 <text class="mc" x="940" y="57" font-size="10" text-anchor="end">CONTRIBUTIONS</text>
 <rect x="818" y="176" width="122" height="1" fill="#003b16"/>
 <text class="mc" x="884" y="200" font-size="10" text-anchor="end">PEAK DAY</text><text class="hl" x="940" y="200" font-size="10" text-anchor="end">238</text>
-<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">202/366</text>
+<text class="mc" x="884" y="218" font-size="10" text-anchor="end">ACTIVE DAYS</text><text class="hl" x="940" y="218" font-size="10" text-anchor="end">202/367</text>
 <text class="mc" x="884" y="236" font-size="10" text-anchor="end">MEDIAN</text><text class="hl" x="940" y="236" font-size="10" text-anchor="end">8</text>
 <text class="mc" x="40" y="515" font-size="10">COMMITS PER DAY · LOG SCALE · P98 146</text>
 <text class="mc" x="40" y="533.5" font-size="10">LOW</text>
