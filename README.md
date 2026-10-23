@@ -9,7 +9,7 @@
 **AI Engineer & Tech Lead** · CTO [@Cerberus Soluciones](https://cerberus.cl) · Sr. Tech Lead [@Open Source Integrators](https://opensourceintegrators.com)<br>
 B.Sc. Physics, Universidad de Chile · Santiago, Chile
 
-`~15 ms` GPU inference · `84` instruments traded · `20+` agents in production · <!-- BEGIN:commits -->5.5k<!-- END:commits --> commits/year
+`~15 ms` GPU inference · `84` instruments traded · `20+` agents in production · <!-- BEGIN:commits -->5.6k<!-- END:commits --> commits/year
 
 [**Portfolio** ▸ jose.cerberus.cl](https://jose.cerberus.cl) · [**Company** ▸ cerberus.cl](https://cerberus.cl) · [**LinkedIn** ▸ jose-ignacio-concha-araya](https://www.linkedin.com/in/jose-ignacio-concha-araya/)
 
@@ -120,7 +120,7 @@ flowchart TD
 <!-- BEGIN:stats -->
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
 > **98.4% of my commits and pull requests land in private repositories** —
-> 5,345 against 87 public, across 30 closed repos. The code stays closed, the volume does not.
+> 5,360 against 87 public, across 30 closed repos. The code stays closed, the volume does not.
 <!-- END:stats -->
 
 <div align="center">
@@ -176,7 +176,7 @@ above in orbit. Static by construction, data baked from the API at deploy time.
 WebGL2: a living neural-network background, fourteen desktop apps, and a plain-text mode.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Oct 22, 2026, 8:50 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Oct 23, 2026, 8:37 a.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
