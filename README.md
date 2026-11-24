@@ -125,7 +125,7 @@ flowchart TD
 <!-- BEGIN:stats -->
 > Regenerated daily from the GitHub API, private repositories included in aggregate.
 > **98.4% of my commits and pull requests land in private repositories** —
-> 5,410 against 89 public, across 29 closed repos. The code stays closed, the volume does not.
+> 5,415 against 89 public, across 30 closed repos. The code stays closed, the volume does not.
 <!-- END:stats -->
 
 <div align="center">
@@ -181,7 +181,7 @@ above in orbit. Static by construction, data baked from the API at deploy time.
 WebGL2: a living neural-network background, fourteen desktop apps, and a plain-text mode.
 
 <!-- BEGIN:footer -->
-<sub>Regenerated Nov 23, 2026, 3:05 p.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
+<sub>Regenerated Nov 24, 2026, 2:41 p.m. · Santiago, Chile · every panel on this page is produced by a workflow in this repository</sub>
 <!-- END:footer -->
 
 </div>
